@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>POS Billing System - Login Demo</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .login-container {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 450px;
+            overflow: hidden;
+            animation: slideUp 0.5s ease-out;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .login-header {
+            text-align: center;
+            padding: 40px 30px 20px;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-bottom: 1px solid #dee2e6;
+        }
+
+        .login-logo {
+            width: 80px;
+            height: 80px;
+            object-fit: contain;
+            margin-bottom: 20px;
+            filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.1));
+        }
+
+        .login-header h1 {
+            color: #2c3e50;
+            font-size: 28px;
+            font-weight: 700;
+            margin: 0 0 10px 0;
+            letter-spacing: -0.5px;
+        }
+
+        .login-header p {
+            color: #6c757d;
+            font-size: 16px;
+            margin: 0;
+            line-height: 1.5;
+        }
+
+        .login-form {
+            padding: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 24px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #2c3e50;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 14px 16px;
+            border: 2px solid #e1e5eb;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            background: #f8f9fa;
+            box-sizing: border-box;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #667eea;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .form-group input:disabled {
+            background: #e9ecef;
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
+
+        .error-message {
+            background: #fee;
+            color: #c33;
+            padding: 12px 16px;
+            border-radius: 8px;
+            font-size: 14px;
+            margin-bottom: 20px;
+            border: 1px solid #fcc;
+            animation: shake 0.5s ease-in-out;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+
+        .success-message {
+            background: #efe;
+            color: #383;
+            padding: 12px 16px;
+            border-radius: 8px;
+            font-size: 14px;
+            margin-bottom: 20px;
+            border: 1px solid #cec;
+        }
+
+        .login-button {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        .login-button:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .login-button:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .login-button.loading {
+            pointer-events: none;
+        }
+
+        .spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
+            margin-right: 10px;
+            vertical-align: middle;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .login-footer {
+            padding: 20px 30px 30px;
+            background: #f8f9fa;
+            border-top: 1px solid #e9ecef;
+            text-align: center;
+        }
+
+        .credentials-info {
+            background: #e3f2fd;
+            border-radius: 10px;
+            padding: 20px;
+            border: 1px solid #bbdefb;
+        }
+
+        .credentials-info h3 {
+            color: #1976d2;
+            margin: 0 0 12px 0;
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        .credentials-info p {
+            margin: 8px 0;
+            color: #333;
+            font-size: 14px;
+            line-height: 1.4;
+        }
+
+        .credentials-info strong {
+            color: #1976d2;
+        }
+
+        .dashboard {
+            display: none;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 800px;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .dashboard h2 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+        }
+
+        .user-info {
+            background: #e3f2fd;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            text-align: left;
+        }
+
+        .logout-btn {
+            background: #dc3545;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .logout-btn:hover {
+            background: #c82333;
+            transform: translateY(-2px);
+        }
+
+        @media (max-width: 480px) {
+            .login-container, .dashboard {
+                max-width: 100%;
+            }
+            
+            .login-header {
+                padding: 30px 20px 15px;
+            }
+            
+            .login-header h1 {
+                font-size: 24px;
+            }
+            
+            .login-form {
+                padding: 25px 20px;
+            }
+            
+            .login-footer {
+                padding: 15px 20px 25px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container" id="loginContainer">
+        <div class="login-header">
+            <svg class="login-logo" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                <rect x="10" y="10" width="80" height="80" rx="15" fill="#667eea"/>
+                <text x="50" y="55" text-anchor="middle" fill="white" font-family="Arial" font-size="30" font-weight="bold">$</text>
+            </svg>
+            <h1>POS Billing System</h1>
+            <p>Welcome back! Please sign in to your account</p>
+        </div>
+        
+        <form id="loginForm" class="login-form">
+            <div class="form-group">
+                <label for="email">Email Address</label>
+                <input
+                    type="email"
+                    id="email"
+                    placeholder="Enter your email"
+                    autocomplete="username"
+                    required
+                />
+            </div>
+            
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input
+                    type="password"
+                    id="password"
+                    placeholder="Enter your password"
+                    autocomplete="current-password"
+                    required
+                />
+            </div>
+            
+            <div id="errorMessage" class="error-message" style="display: none;"></div>
+            <div id="successMessage" class="success-message" style="display: none;"></div>
+            
+            <button type="submit" id="loginButton" class="login-button">
+                Sign In
+            </button>
+        </form>
+        
+        <div class="login-footer">
+            <div class="credentials-info">
+                <h3>Demo Credentials:</h3>
+                <p><strong>Email:</strong> admin@pos.com</p>
+                <p><strong>Password:</strong> Admin@123</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="dashboard" id="dashboard">
+        <h2>POS Dashboard</h2>
+        <div class="user-info">
+            <h3>Logged in as:</h3>
+            <p><strong>Email:</strong> <span id="userEmail"></span></p>
+            <p><strong>Role:</strong> Super Admin</p>
+            <p><strong>Login Time:</strong> <span id="loginTime"></span></p>
+        </div>
+        <p>You now have access to the POS Billing System!</p>
+        <button class="logout-btn" id="logoutBtn">Logout</button>
+    </div>
+
+    <script>
+        // Super admin credentials
+        const SUPER_ADMIN_CREDENTIALS = {
+            email: 'admin@pos.com',
+            password: 'Admin@123'
+        };
+
+        // DOM elements
+        const loginContainer = document.getElementById('loginContainer');
+        const dashboard = document.getElementById('dashboard');
+        const loginForm = document.getElementById('loginForm');
+        const emailInput = document.getElementById('email');
+        const passwordInput = document.getElementById('password');
+        const loginButton = document.getElementById('loginButton');
+        const errorMessage = document.getElementById('errorMessage');
+        const successMessage = document.getElementById('successMessage');
+        const logoutBtn = document.getElementById('logoutBtn');
+        const userEmailSpan = document.getElementById('userEmail');
+        const loginTimeSpan = document.getElementById('loginTime');
+
+        // Check if already logged in
+        function checkAuthStatus() {
+            const authData = localStorage.getItem('pos_auth');
+            if (authData) {
+                try {
+                    const parsed = JSON.parse(authData);
+                    if (parsed.isAuthenticated === true) {
+                        showDashboard(parsed);
+                        return true;
+                    }
+                } catch (e) {
+                    localStorage.removeItem('pos_auth');
+                }
+            }
+            return false;
+        }
+
+        // Validate email format
+        function validateEmail(email) {
+            const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return re.test(email);
+        }
+
+        // Show error message
+        function showError(message) {
+            errorMessage.textContent = message;
+            errorMessage.style.display = 'block';
+            successMessage.style.display = 'none';
+            setTimeout(() => {
+                errorMessage.style.display = 'none';
+            }, 5000);
+        }
+
+        // Show success message
+        function showSuccess(message) {
+            successMessage.textContent = message;
+            successMessage.style.display = 'block';
+            errorMessage.style.display = 'none';
+            setTimeout(() => {
+                successMessage.style.display = 'none';
+            }, 3000);
+        }
+
+        // Set loading state
+        function setLoading(isLoading) {
+            if (isLoading) {
+                loginButton.innerHTML = '<span class="spinner"></span> Authenticating...';
+                loginButton.disabled = true;
+                emailInput.disabled = true;
+                passwordInput.disabled = true;
+            } else {
+                loginButton.textContent = 'Sign In';
+                loginButton.disabled = false;
+                emailInput.disabled = false;
+                passwordInput.disabled = false;
+            }
+        }
+
+        // Show dashboard
+        function showDashboard(userData) {
+            loginContainer.style.display = 'none';
+            dashboard.style.display = 'block';
+            userEmailSpan.textContent = userData.userEmail;
+            loginTimeSpan.textContent = new Date(userData.loginTime).toLocaleString();
+        }
+
+        // Hide dashboard
+        function hideDashboard() {
+            loginContainer.style.display = 'block';
+            dashboard.style.display = 'none';
+        }
+
+        // Handle login
+        loginForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const email = emailInput.value.trim();
+            const password = passwordInput.value;
+            
+            // Validation
+            if (!email) {
+                showError('Email is required');
+                return;
+            }
+            
+            if (!validateEmail(email)) {
+                showError('Please enter a valid email address');
+                return;
+            }
+            
+            if (!password) {
+                showError('Password is required');
+                return;
+            }
+            
+            if (password.length < 6) {
+                showError('Password must be at least 6 characters long');
+                return;
+            }
+
+            setLoading(true);
+            
+            // Simulate API call
+            setTimeout(() => {
+                try {
+                    // Check credentials
+                    if (email === SUPER_ADMIN_CREDENTIALS.email && password === SUPER_ADMIN_CREDENTIALS.password) {
+                        // Store login data
+                        const loginData = {
+                            isAuthenticated: true,
+                            userEmail: email,
+                            loginTime: new Date().toISOString(),
+                            role: 'super_admin'
+                        };
+                        
+                        localStorage.setItem('pos_auth', JSON.stringify(loginData));
+                        showSuccess('Login successful!');
+                        
+                        setTimeout(() => {
+                            showDashboard(loginData);
+                        }, 1000);
+                    } else {
+                        showError('Invalid email or password');
+                    }
+                } catch (err) {
+                    showError('Login failed. Please try again.');
+                } finally {
+                    setLoading(false);
+                }
+            }, 1000);
+        });
+
+        // Handle logout
+        logoutBtn.addEventListener('click', () => {
+            localStorage.removeItem('pos_auth');
+            hideDashboard();
+            emailInput.value = '';
+            passwordInput.value = '';
+            showSuccess('You have been logged out successfully');
+        });
+
+        // Check auth status on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            checkAuthStatus();
+        });
+    </script>
+</body>
+</html>

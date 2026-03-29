@@ -1,0 +1,20 @@
+{
+  "name": "desktop-pos-hybrid",
+  "version": "1.0.0",
+  "description": "Desktop POS with Hybrid Cloud Sync",
+  "main": "main.js",
+  "scripts": {
+    "start": "concurrently \"npm run dev --prefix backend\" \"npm run start --prefix frontend\" \"wait-on http://localhost:3000 && electron .\"",
+    "electron": "electron .",
+    "install:all": "npm install && cd frontend && npm install && cd ../backend && npm install"
+  },
+  "dependencies": {
+    "concurrently": "^8.2.2",
+    "electron-is-dev": "^2.0.0",
+    "wait-on": "^7.2.0"
+  },
+  "devDependencies": {
+    "electron": "^28.2.0",
+    "electron-builder": "^24.9.1"
+  }
+}

@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Logo Fix Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        
+        .test-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .app-logo {
+            height: 60px;
+            width: auto;
+            object-fit: contain;
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+        }
+        
+        .header-title {
+            font-size: 2rem;
+            margin: 0;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        
+        @media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+                padding: 15px;
+            }
+            
+            .app-logo {
+                height: 40px;
+                max-width: 120px;
+            }
+            
+            .header-title {
+                font-size: 1.4rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .app-logo {
+                height: 35px;
+                max-width: 100px;
+            }
+            
+            .header-title {
+                font-size: 1.1rem;
+            }
+        }
+        
+        .test-section {
+            margin: 20px 0;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        
+        .success {
+            background-color: #d4edda;
+            border-color: #c3e6cb;
+            color: #155724;
+        }
+        
+        .info {
+            background-color: #d1ecf1;
+            border-color: #bee5eb;
+            color: #0c5460;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>POS Logo Mobile Fix - Test Page</h1>
+        
+        <div class="header">
+            <img 
+                src="./assets/logo.png" 
+                alt="POS Logo" 
+                class="app-logo"
+                onerror="this.onerror=null; this.src='./assets/Mc Logo.png';"
+            />
+            <h1 class="header-title">POS Billing System</h1>
+        </div>
+        
+        <div class="test-section success">
+            <h3>✅ Logo Fix Applied Successfully!</h3>
+            <p><strong>Changes made:</strong></p>
+            <ul>
+                <li>Fixed logo path from hardcoded Windows path to relative path</li>
+                <li>Added error handling with fallback to alternative logo</li>
+                <li>Enhanced mobile-responsive CSS for different screen sizes</li>
+                <li>Copied logo files to frontend public assets folder</li>
+            </ul>
+        </div>
+        
+        <div class="test-section info">
+            <h3>📱 Mobile Responsiveness</h3>
+            <p><strong>Test on mobile:</strong> Resize your browser window or use developer tools to simulate mobile devices. The logo should:</p>
+            <ul>
+                <li>Display properly on all screen sizes</li>
+                <li>Resize appropriately for mobile screens</li>
+                <li>Fallback to alternative logo if primary fails to load</li>
+                <li>Remain visible with proper spacing</li>
+            </ul>
+        </div>
+        
+        <div class="test-section">
+            <h3>🔧 Technical Details</h3>
+            <p><strong>Files modified:</strong></p>
+            <ul>
+                <li><code>frontend/src/App.jsx</code> - Fixed logo path and added error handling</li>
+                <li><code>frontend/src/App.css</code> - Enhanced mobile-responsive styles</li>
+                <li><code>frontend/public/assets/</code> - Copied logo files</li>
+            </ul>
+        </div>
+        
+        <div class="test-section info">
+            <h3>💡 How to Test on Mobile Device</h3>
+            <ol>
+                <li>Make sure your computer and mobile device are on the same network</li>
+                <li>Find your computer's IP address</li>
+                <li>Access the React app via: <code>http://YOUR_IP_ADDRESS:3000</code></li>
+                <li>Or deploy to a web server and access via mobile browser</li>
+            </ol>
+        </div>
+    </div>
+</body>
+</html>
