@@ -5,8 +5,10 @@
   "main": "main.js",
   "scripts": {
     "start": "concurrently \"npm run dev --prefix backend\" \"npm run start --prefix frontend\" \"wait-on http://localhost:3000 && electron .\"",
+    "build": "cd backend && npm install && cd ../frontend && npm install && npm run build",
     "electron": "electron .",
     "install:all": "npm install && cd frontend && npm install && cd ../backend && npm install"
+
   },
   "dependencies": {
     "concurrently": "^8.2.2",
